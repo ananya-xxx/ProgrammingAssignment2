@@ -1,25 +1,23 @@
-## Put comments here that give an overall description of what your
-## functions do
-
-
 ## makeCacheMatrix function creates a special "matrix" object that can cache its inverse. 
-## library(MASS) is used to calculate inverse for non-squared as well as square matrices. 
 
 library(MASS)
 makeCacheMatrix <- function(x = matrix())
 {
-  inv<-NULL ##initializing inverse as NULL 
+  inv<-NULL 
+  ## here the variable for inverse (inv) has been initialized as NULL 
   set<-function(y)
   {
     x<<-y
     inv<<-NULL
   }
-  get<-function()x ##function to get matrix x 
+  get<-function()x 
+  ## here the function to get matrix x has been defined 
   setinv<-function(inverse)inv<<-inverse 
   getinv<-function()
   {
     inver<-ginv(x)
-    inver%*%x #function to obtain inverse of the matrix
+    inver%*%x 
+    ## this is the function that is being used to obtain the inverse of the matrix x as required 
   }
   list(set=set, get=get, setinv=setinv, getinv=getinv)
 }
@@ -27,16 +25,21 @@ makeCacheMatrix <- function(x = matrix())
 
 ## cacheSolve function computes the inverse of the special "matrix" returned by makeCacheMatric above. If the inverse has already been calculated (and the matrix has not changed), then the cacheSolve should retrieve the inverse from the cache. 
 
-cacheSolve<-function(x, ...) ##gets cache data 
+cacheSolve<-function(x, ...) 
+## the function defined here retrieves the cache data 
 {
   inv<-x$getinv()
-  if(!is.null(inv)) ##checking whether inverse is NULL 
+  if(!is.null(inv)) 
+  ## here it is being checked whether or not the variable inv (for inverse) is NULL 
   {
     message("Getting cached data!")
-    return(inv) ##returns inverse value 
+    return(inv) 
+    ## this function returns inverse value from the cache data retrieved 
   }
   data<-x$get()
-  inv<-solve(data, ...) ##calculates inverse value 
+  inv<-solve(data, ...) 
+  ## this function is used to calculate the inverse value if it is NULL in the cache data retrieved 
   x$setinv(inv)
-  inv ##return a matrix that is the inverse of 'x' 
+  inv 
+  ## this functions displays the inverse matrix of the matrix x given earlier 
 }
